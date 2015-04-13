@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Define charset for HTML5 Doctype -->
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" type="text/css" media="screen" href="assets/styles/styles.css" />
+    </head>
+    <body>
+
+        <canvas id="canvasId" width="800" height="600">Your browser is unsupported</canvas>
+
+        <script type="text/javascript" src="assets/vendor/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="assets/vendor/jquery.eventListener/src/jquery.eventListener.js"></script>
+        <script type="text/javascript" src="assets/vendor/gsap/src/minified/easing/EasePack.min.js"></script>
+        <script type="text/javascript" src="assets/vendor/gsap/src/minified/plugins/BezierPlugin.min.js"></script>
+        <script type="text/javascript" src="assets/vendor/gsap/src/minified/TweenLite.min.js"></script>
+        <script type="text/javascript" src="assets/scripts/app.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                // Get class from namespace.
+                var StatePatternExample = namespace.StatePatternExample;
+
+                var app = new StatePatternExample();
+            });
+        </script>
+    </body>
+</html>

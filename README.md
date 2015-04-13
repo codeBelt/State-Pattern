@@ -11,13 +11,15 @@ grunt launch
 ##State Pattern Learning Resources
 Check out these resource that helped me learn the State Pattern:
 
+[Derek Banas: State Design Pattern](https://www.youtube.com/watch?v=MGEx35FjBuo)
+
 [John Lindquist: PatternCraft - State Pattern](https://www.youtube.com/watch?v=yZt7mUVDijU)
 
 [John Lindquist: PatternCraft - The Differences Between the Bridge, State, and Strategy Patterns](http://johnlindquist.blogspot.com/2011/05/patterncraft-differences-between-bridge_16.html)
 
-[SourceMaking: State Design Pattern](https://sourcemaking.com/design_patterns/state)
+[dofactory: State Design Pattern](http://www.dofactory.com/javascript/state-design-pattern)
 
-[Derek Banas: State Design Pattern](https://www.youtube.com/watch?v=MGEx35FjBuo)
+[SourceMaking: State Design Pattern](https://sourcemaking.com/design_patterns/state)
 
 ## Credits
 

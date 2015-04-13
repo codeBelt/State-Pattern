@@ -4,7 +4,7 @@
 ///<reference path='utils/ImageLoader.ts'/>
 ///<reference path='utils/BulkLoader.ts'/>
 ///<reference path='events/LoaderEvent.ts'/>
-///<reference path='views/DrawingBoard.ts'/>
+///<reference path='views/VendingMachine.ts'/>
 
 module namespace {
 
@@ -12,7 +12,7 @@ module namespace {
 
         private static BASE_PATH:string = 'assets/media/images/';
 
-        private _drawingBoard:DrawingBoard = null;
+        private _vendingMachine:VendingMachine = null;
 
         constructor() {
             this.loadAssets();
@@ -20,19 +20,12 @@ module namespace {
 
         private loadAssets():void {
             BulkLoader.addEventListener(LoaderEvent.LOAD_COMPLETE, this.onAssetsLoadComplete, this);
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'crayon-outline.png'), 'crayon-outline');
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'marker-outline.png'), 'marker-outline');
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'eraser-outline.png'), 'eraser-outline');
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'crayon-background.png'), 'crayon-background');
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'marker-background.png'), 'marker-background');
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'eraser-background.png'), 'eraser-background');
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'crayon-texture.png'), 'crayon-texture');
-            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'watermelon-duck-outline.png'), 'watermelon-duck-outline');
+            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'vending-machine.png'), 'vending-machine');
             BulkLoader.load();
         }
 
         private onAssetsLoadComplete(event:LoaderEvent):void {
-            this._drawingBoard = new DrawingBoard('canvasId');
+            this._vendingMachine = new VendingMachine('canvasId');
         }
 
 

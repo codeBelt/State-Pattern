@@ -28,7 +28,7 @@ module namespace {
 
             var addMoneyButton = new Bitmap(image);
             addMoneyButton.name = 'addMoneyButton';
-            addMoneyButton.x = machineBg.x + machineBg.width + 50;
+            addMoneyButton.x = machineBg.x + machineBg.width + 35;
             addMoneyButton.y = 30;
             this.addChild(addMoneyButton);
 

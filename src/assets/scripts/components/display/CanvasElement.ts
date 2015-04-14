@@ -8,10 +8,34 @@ module namespace {
             super();
 
             this.canvas = <HTMLCanvasElement> document.getElementById(canvasId);
+            this.$canvas = $(this.canvas);
             this.ctx = this.canvas.getContext('2d');
 
             this.width = this.canvas.width;
             this.height = this.canvas.height;
+
+            // Add mouse event listeners to canvas element
+            this.$canvas.addEventListener('mousedown', this.onPress, this);
+            this.$canvas.addEventListener('mousemove', this.onDrag, this);
+            this.$canvas.addEventListener('mouseup', this.onRelease, this);
+            this.$canvas.addEventListener('mouseout', this.onCancel, this);
+
+            // Add touch event listeners to this.$canvas element
+            this.$canvas.addEventListener('touchstart', this.onPress, this);
+            this.$canvas.addEventListener('touchmove', this.onDrag, this);
+            this.$canvas.addEventListener('touchend', this.onRelease, this);
+            this.$canvas.addEventListener('touchcancel', this.onCancel, this);
+        }
+
+        /**
+         * @overridden DisplayObject.disable
+         */
+        public disable():void {
+            if (this.isEnabled === false) { return; }
+
+            // Disable the child objects and remove any event listeners.
+
+            super.disable();
         }
 
         public getMousePos(event:MouseEvent|JQueryEventObject):{x: number; y: number } {
@@ -27,9 +51,11 @@ module namespace {
             var foundItem:DisplayObject = null;
 
             for (var i = this.numChildren - 1; i >= 0; i--) {
-                if (this.hitTest(this.children[i], x, y)) {
-                    foundItem = this.children[i];
-                    break;
+                if (this.children[i].visible === true) {
+                    if (this.hitTest(this.children[i], x, y)) {
+                        foundItem = this.children[i];
+                        break;
+                    }
                 }
             }
 
@@ -48,7 +74,7 @@ module namespace {
         }
 
         /**
-         * @overridden
+         * @overridden DisplayObject.render
          */
         public render():void {
             this.ctx.clearRect(0, 0, this.width, this.height);
@@ -60,6 +86,38 @@ module namespace {
             } else {
                 return false;
             }
+        }
+
+        private onPress(event:MouseEvent|JQueryEventObject):void {
+            var mousePos = this.getMousePos(event);
+
+            event.target = <any>this.getObjectUnderPoint(mousePos.x, mousePos.y);
+            event.currentTarget = <any>this;
+
+            this.dispatchEvent(event);
+        }
+
+        private onDrag(event:MouseEvent|JQueryEventObject):void {
+            event.target = <any>this;
+            event.currentTarget = <any>this;
+
+            this.dispatchEvent(event);
+        }
+
+        private onRelease(event:MouseEvent|JQueryEventObject):void {
+            var mousePos = this.getMousePos(event);
+
+            event.target = <any>this.getObjectUnderPoint(mousePos.x, mousePos.y);
+            event.currentTarget = <any>this;
+
+            this.dispatchEvent(event);
+        }
+
+        private onCancel(event:MouseEvent|JQueryEventObject):void {
+            event.target = <any>this;
+            event.currentTarget = <any>this;
+
+            this.dispatchEvent(event);
         }
 
     }

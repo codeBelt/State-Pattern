@@ -21,6 +21,7 @@ module namespace {
         private loadAssets():void {
             BulkLoader.addEventListener(LoaderEvent.LOAD_COMPLETE, this.onAssetsLoadComplete, this);
             BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'vending-machine.png'), 'vending-machine');
+            BulkLoader.addFile(new ImageLoader(StatePatternExample.BASE_PATH + 'click-to-add-money.png'), 'click-to-add-money');
             BulkLoader.load();
         }
 

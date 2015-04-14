@@ -8,12 +8,10 @@ module namespace {
 
     export class VendingMachine extends CanvasElement {
 
-        private _machineBg:Bitmap;
-
         constructor(canvasId:string) {
             super(canvasId);
 
-            this.canvas.addEventListener('mouseup', this.onStageClick.bind(this));
+            this.addEventListener('mousedown', this.onClick, this);
 
             this.createChildren();
         }
@@ -21,15 +19,35 @@ module namespace {
         private createChildren():void {
             var image:HTMLImageElement = BulkLoader.getImage('vending-machine');
 
-            this._machineBg = new Bitmap(image);
-            this._machineBg.x = 10;
-            this._machineBg.y = 10;
-            this.addChild(this._machineBg);
+            var machineBg:Bitmap = new Bitmap(image);
+            machineBg.x = 10;
+            machineBg.y = 10;
+            this.addChild(machineBg);
 
+            image = BulkLoader.getImage('click-to-add-money');
 
-            var hitButton:Button = new Button(this._machineBg.x + 183, this._machineBg.y + 178, 20, 20, 'yellow');
-            hitButton.name = 'asdfasdf';
-            this.addChild(hitButton);
+            var addMoneyButton = new Bitmap(image);
+            addMoneyButton.name = 'addMoneyButton';
+            addMoneyButton.x = machineBg.x + machineBg.width + 50;
+            addMoneyButton.y = 30;
+            this.addChild(addMoneyButton);
+
+            var cancelButton = new Button(198 + machineBg.x, 142 + machineBg.y, 15, 15, 'yellow');
+            cancelButton.name = 'cancelButton';
+            this.addChild(cancelButton);
+
+            var posX:number;
+            var posY:number;
+            var hitButton:Button;
+            var selectButton = 8;
+            for (var i:number = 0; i < selectButton; i++) {
+                posX = 183 + machineBg.x;
+                posY = (33 * i) + machineBg.y + 178;
+
+                hitButton = new Button(posX, posY, 20, 20, 'yellow');
+                hitButton.name = 'selection_' + i;
+                this.addChild(hitButton);
+            }
 
             this.update();
 
@@ -38,12 +56,9 @@ module namespace {
 //            cancelState
         }
 
-        private onStageClick(event:MouseEvent):void {
-            var mousePos = this.getMousePos(event);
-            var item = <any>this.getObjectUnderPoint(mousePos.x, mousePos.y);
-
-            console.log('mousePos', mousePos);
-            console.log("item", item, item.name);
+        private onClick(event):void {
+            var button:Button = <Button>event.target;
+            console.log(button.name);
         }
     }
 }

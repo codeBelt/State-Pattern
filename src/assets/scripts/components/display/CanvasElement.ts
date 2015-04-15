@@ -104,7 +104,7 @@ module namespace {
             var mousePos = this.getMousePos(event);
             var displayObject:DisplayObject = this.getObjectUnderPoint(mousePos.x, mousePos.y);
 
-            if (displayObject !== null && displayObject.mouseEnabled === true) {
+            if (displayObject !== null && displayObject.mouseEnabled === true && displayObject.visible === true) {
                 document.body.style.cursor = 'pointer';
             } else {
                 document.body.style.cursor = 'default';

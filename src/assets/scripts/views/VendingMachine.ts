@@ -35,6 +35,7 @@ module namespace {
 
             var cancelButton = new Button(198 + machineBg.x, 142 + machineBg.y, 15, 15, 'yellow');
             cancelButton.name = 'cancelButton';
+            cancelButton.alpha = 0;
             this.addChild(cancelButton);
 
             var posX:number;
@@ -47,6 +48,7 @@ module namespace {
 
                 hitButton = new Button(posX, posY, 20, 20, 'yellow');
                 hitButton.name = 'selection_' + i;
+                hitButton.alpha = 0;
                 this.addChild(hitButton);
             }
 

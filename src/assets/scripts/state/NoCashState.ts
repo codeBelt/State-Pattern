@@ -12,18 +12,18 @@ module namespace {
         }
 
         public insertCash(amount:number):void {
-            console.log("Money was added:", amount);
+            this._stateContext.currentMessage = 'Money added.';
 
             this._stateContext.currentCashAmount = amount;
             this._stateContext.setState( this._stateContext.getHasCashState() );
         }
 
         public requestItem(itemId:number):void {
-            console.log("Please add more money.");
+            this._stateContext.currentMessage = 'Please add more money.';
         }
 
         public ejectCash():void {
-            console.log("No money to return.");
+            this._stateContext.currentMessage = 'No money to return.';
         }
 
     }

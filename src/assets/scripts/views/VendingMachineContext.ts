@@ -1,6 +1,8 @@
+///<reference path='../utils/Util.ts'/>
 ///<reference path='../components/display/CanvasElement.ts'/>
 ///<reference path='../components/display/Bitmap.ts'/>
 ///<reference path='../components/display/Rectangle.ts'/>
+///<reference path='../components/display/TextField.ts'/>
 ///<reference path='../views/Button.ts'/>
 ///<reference path='../utils/BulkLoader.ts'/>
 
@@ -11,7 +13,11 @@
 
 module namespace {
 
+    import Util = StructureTS.Util;
+
     export class VendingMachineContext extends CanvasElement {
+
+        private _text:TextField;
 
         private _hasCashState:HasCashState;
         private _noCashState:NoCashState;
@@ -19,6 +25,7 @@ module namespace {
         private _currentState:IVendingState;
 
         public currentCashAmount:number = 0;
+        public currentMessage:string = 'Please add money.';
 
         public products:Array<any> = [
             {name: 'NUROFEN', price: 200},
@@ -66,6 +73,17 @@ module namespace {
             cancelButton.addEventListener('mousedown', this.onCancel, this);
             this.addChild(cancelButton);
 
+            this._text = new TextField();
+            this._text.x = 25 + machineBg.x;
+            this._text.y = 40 + machineBg.y;
+            this._text.color = '#4cbc8a';
+            this._text.size = '12px';
+            this._text.lineHeight = parseInt(this._text.size) + 20;
+            this._text.text = this.currentMessage + '\n';
+            this._text.text += 'Money In Machine: ' + this.currentCashAmount + '\n';
+            this._text.text += 'Current State: ' + Util.getClassName(this._currentState) + '\n';
+            this.addChild(this._text);
+
             var posX:number;
             var posY:number;
             var hitButton:Button;
@@ -91,14 +109,20 @@ module namespace {
 
         public insertCash(amount:number):void {
             this._currentState.insertCash(amount);
+
+            this.updateText();
         }
 
         public requestItemById(itemId:number):void {
             this._currentState.requestItem(itemId);
+
+            this.updateText();
         }
 
         public ejectCash():void {
             this._currentState.ejectCash();
+
+            this.updateText();
         }
 
         private onSelectItem(event):void {
@@ -115,6 +139,14 @@ module namespace {
             var amount:number = 25; // Cents
 
             this.insertCash(amount);
+        }
+
+        private updateText():void {
+            this._text.text = this.currentMessage + '\n';
+            this._text.text += 'Money In Machine: ' + this.currentCashAmount + '\n';
+            this._text.text += 'Current State: ' + Util.getClassName(this._currentState) + '\n';
+
+            this.update();
         }
 
         // Getters

@@ -14,7 +14,7 @@ module namespace {
         public insertCash(amount:number):void {
             this._stateContext.currentCashAmount += amount;
 
-            console.log("Total money added:", this._stateContext.currentCashAmount)
+            this._stateContext.currentMessage = 'Money added.';
         }
 
         public requestItem(itemId:number):void {
@@ -25,18 +25,20 @@ module namespace {
             if (moneyLeftOver >= 0) {
                 this._stateContext.currentCashAmount = moneyLeftOver;
 
-                console.log("Enjoy your:", product.name);
+                this._stateContext.currentMessage = 'Enjoy your: ' + product.name;
 
                 if (moneyLeftOver === 0) {
                     this._stateContext.setState( this._stateContext.getNoCashState() );
                 }
             } else {
-                console.log("Please add more money for this item.");
+                this._stateContext.currentMessage = 'Please add more money.';
             }
         }
 
         public ejectCash():void {
-            console.log("Return money amount:", this._stateContext.currentCashAmount);
+            this._stateContext.currentMessage = 'Returned amount: ' + this._stateContext.currentCashAmount;
+
+            this._stateContext.currentCashAmount = 0;
 
             this._stateContext.setState( this._stateContext.getNoCashState() );
         }

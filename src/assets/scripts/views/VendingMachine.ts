@@ -47,6 +47,7 @@ module namespace {
                 posY = (33 * i) + machineBg.y + 178;
 
                 hitButton = new Button(posX, posY, 20, 20, 'yellow');
+                hitButton.id = i;
                 hitButton.name = 'selection_' + i;
                 hitButton.alpha = 0;
                 hitButton.addEventListener('mousedown', this.onSelectItem, this);
@@ -61,7 +62,8 @@ module namespace {
         }
 
         private onSelectItem(event):void {
-            console.log("onSelectItem", event);
+            var button:Button = event.target;
+            console.log("onSelectItem", button.id);
         }
 
         private onCancel(event):void {

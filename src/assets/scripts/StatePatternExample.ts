@@ -4,7 +4,7 @@
 ///<reference path='utils/ImageLoader.ts'/>
 ///<reference path='utils/BulkLoader.ts'/>
 ///<reference path='events/LoaderEvent.ts'/>
-///<reference path='views/VendingMachine.ts'/>
+///<reference path='views/VendingMachineContext.ts'/>
 
 module namespace {
 
@@ -12,7 +12,7 @@ module namespace {
 
         private static BASE_PATH:string = 'assets/media/images/';
 
-        private _vendingMachine:VendingMachine = null;
+        private _vendingMachine:VendingMachineContext = null;
 
         constructor() {
             this.loadAssets();
@@ -26,7 +26,7 @@ module namespace {
         }
 
         private onAssetsLoadComplete(event:LoaderEvent):void {
-            this._vendingMachine = new VendingMachine('canvasId');
+            this._vendingMachine = new VendingMachineContext('canvasId');
         }
 
 

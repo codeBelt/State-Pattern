@@ -4,12 +4,40 @@
 ///<reference path='../views/Button.ts'/>
 ///<reference path='../utils/BulkLoader.ts'/>
 
+///<reference path='../interfaces/IVendingState.ts'/>
+///<reference path='../state/HasCashState.ts'/>
+///<reference path='../state/NoCashState.ts'/>
+
+
 module namespace {
 
-    export class VendingMachine extends CanvasElement {
+    export class VendingMachineContext extends CanvasElement {
+
+        private _hasCashState:HasCashState;
+        private _noCashState:NoCashState;
+
+        private _currentState:IVendingState;
+
+        public currentCashAmount:number = 0;
+
+        public products:Array<any> = [
+            {name: 'NUROFEN', price: 200},
+            {name: 'tic tac', price: 150},
+            {name: 'hello', price: 1000},
+            {name: 'MALT', price: 300},
+            {name: 'LYNX', price: 150},
+            {name: 'Vaseline', price: 180},
+            {name: 'RedBull', price: 200},
+            {name: 'naka.', price: 220}
+        ];
 
         constructor(canvasId:string) {
             super(canvasId);
+
+            this._hasCashState = new HasCashState(this);
+            this._noCashState = new NoCashState(this);
+
+            this._currentState = this._noCashState;
 
             this.createChildren();
         }
@@ -48,30 +76,50 @@ module namespace {
 
                 hitButton = new Button(posX, posY, 20, 20, 'yellow');
                 hitButton.id = i;
-                hitButton.name = 'selection_' + i;
                 hitButton.alpha = 0;
+                hitButton.name = 'selection_' + i;
                 hitButton.addEventListener('mousedown', this.onSelectItem, this);
                 this.addChild(hitButton);
             }
 
             this.update();
+        }
 
-//            insertCashState
-//            acceptSelectionState
-//            cancelState
+        public setState(state:IVendingState):void {
+            this._currentState = state;
+        }
+
+        public insertCash(amount:number):void {
+            this._currentState.insertCash(amount);
+        }
+
+        public requestItemById(itemId:number):void {
+            this._currentState.requestItem(itemId);
+        }
+
+        public ejectCash():void {
+            this._currentState.ejectCash();
         }
 
         private onSelectItem(event):void {
             var button:Button = event.target;
-            console.log("onSelectItem", button.id);
+
+            this.requestItemById(button.id);
         }
 
         private onCancel(event):void {
-            console.log("onCancel", event);
+            this.ejectCash();
         }
 
         private onAddMoney(event):void {
-            console.log("add money",event);
+            var amount:number = 25; // Cents
+
+            this.insertCash(amount);
         }
+
+        // Getters
+        public getHasCashState():HasCashState { return this._hasCashState; }
+        public getNoCashState():NoCashState { return this._noCashState; }
+
     }
 }

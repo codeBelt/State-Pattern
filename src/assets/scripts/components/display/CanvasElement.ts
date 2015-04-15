@@ -14,17 +14,17 @@ module namespace {
             this.width = this.canvas.width;
             this.height = this.canvas.height;
 
-            // Add mouse event listeners to canvas element
-            this.$canvas.addEventListener('mousedown', this.onPress, this);
-            this.$canvas.addEventListener('mousemove', this.onMove, this);
-            this.$canvas.addEventListener('mouseup', this.onRelease, this);
-            this.$canvas.addEventListener('mouseout', this.onCancel, this);
+            // Add mouse event listeners to $canvas element
+            this.$canvas.addEventListener('mousedown', this.onPressHandler, this);
+            this.$canvas.addEventListener('mousemove', this.onMoveHandler, this);
+            this.$canvas.addEventListener('mouseup', this.onReleaseHandler, this);
+            this.$canvas.addEventListener('mouseout', this.onCancelHandler, this);
 
-            // Add touch event listeners to this.$canvas element
-            this.$canvas.addEventListener('touchstart', this.onPress, this);
-            this.$canvas.addEventListener('touchmove', this.onMove, this);
-            this.$canvas.addEventListener('touchend', this.onRelease, this);
-            this.$canvas.addEventListener('touchcancel', this.onCancel, this);
+            // Add touch event listeners to $canvas element
+            this.$canvas.addEventListener('touchstart', this.onPressHandler, this);
+            this.$canvas.addEventListener('touchmove', this.onMoveHandler, this);
+            this.$canvas.addEventListener('touchend', this.onReleaseHandler, this);
+            this.$canvas.addEventListener('touchcancel', this.onCancelHandler, this);
         }
 
         /**
@@ -88,16 +88,19 @@ module namespace {
             }
         }
 
-        private onPress(event:MouseEvent|JQueryEventObject):void {
+        private onPressHandler(event:MouseEvent|JQueryEventObject):void {
             var mousePos = this.getMousePos(event);
+            var displayObject:DisplayObject = this.getObjectUnderPoint(mousePos.x, mousePos.y);
 
-            event.target = <any>this.getObjectUnderPoint(mousePos.x, mousePos.y);
+            event.target = <any>displayObject;
             event.currentTarget = <any>this;
 
-            this.dispatchEvent(event);
+            if (displayObject !== null) {
+                displayObject.dispatchEvent(event);
+            }
         }
 
-        private onMove(event:MouseEvent|JQueryEventObject):void {
+        private onMoveHandler(event:MouseEvent|JQueryEventObject):void {
             event.target = <any>this;
             event.currentTarget = <any>this;
 
@@ -110,23 +113,33 @@ module namespace {
                 document.body.style.cursor = 'default';
             }
 
-            this.dispatchEvent(event);
+            if (displayObject !== null) {
+                displayObject.dispatchEvent(event);
+            }
         }
 
-        private onRelease(event:MouseEvent|JQueryEventObject):void {
+        private onReleaseHandler(event:MouseEvent|JQueryEventObject):void {
             var mousePos = this.getMousePos(event);
+            var displayObject:DisplayObject = this.getObjectUnderPoint(mousePos.x, mousePos.y);
 
-            event.target = <any>this.getObjectUnderPoint(mousePos.x, mousePos.y);
+            event.target = <any>displayObject;
             event.currentTarget = <any>this;
 
-            this.dispatchEvent(event);
+            if (displayObject !== null) {
+                displayObject.dispatchEvent(event);
+            }
         }
 
-        private onCancel(event:MouseEvent|JQueryEventObject):void {
+        private onCancelHandler(event:MouseEvent|JQueryEventObject):void {
             event.target = <any>this;
             event.currentTarget = <any>this;
 
-            this.dispatchEvent(event);
+            var mousePos = this.getMousePos(event);
+            var displayObject:DisplayObject = this.getObjectUnderPoint(mousePos.x, mousePos.y);
+
+            if (displayObject !== null) {
+                displayObject.dispatchEvent(event);
+            }
         }
 
     }

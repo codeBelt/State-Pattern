@@ -11,8 +11,6 @@ module namespace {
         constructor(canvasId:string) {
             super(canvasId);
 
-            this.addEventListener('mousedown', this.onClick, this);
-
             this.createChildren();
         }
 
@@ -31,11 +29,13 @@ module namespace {
             addMoneyButton.x = machineBg.x + machineBg.width + 35;
             addMoneyButton.y = 30;
             addMoneyButton.mouseEnabled = true;
+            addMoneyButton.addEventListener('mousedown', this.onAddMoney, this);
             this.addChild(addMoneyButton);
 
             var cancelButton = new Button(198 + machineBg.x, 142 + machineBg.y, 15, 15, 'yellow');
             cancelButton.name = 'cancelButton';
             cancelButton.alpha = 0;
+            cancelButton.addEventListener('mousedown', this.onCancel, this);
             this.addChild(cancelButton);
 
             var posX:number;
@@ -49,6 +49,7 @@ module namespace {
                 hitButton = new Button(posX, posY, 20, 20, 'yellow');
                 hitButton.name = 'selection_' + i;
                 hitButton.alpha = 0;
+                hitButton.addEventListener('mousedown', this.onSelectItem, this);
                 this.addChild(hitButton);
             }
 
@@ -59,9 +60,16 @@ module namespace {
 //            cancelState
         }
 
-        private onClick(event):void {
-            var button:Button = <Button>event.target;
-            console.log(button.name);
+        private onSelectItem(event):void {
+            console.log("onSelectItem", event);
+        }
+
+        private onCancel(event):void {
+            console.log("onCancel", event);
+        }
+
+        private onAddMoney(event):void {
+            console.log("add money",event);
         }
     }
 }

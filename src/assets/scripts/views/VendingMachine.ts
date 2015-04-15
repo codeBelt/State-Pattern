@@ -30,6 +30,7 @@ module namespace {
             addMoneyButton.name = 'addMoneyButton';
             addMoneyButton.x = machineBg.x + machineBg.width + 35;
             addMoneyButton.y = 30;
+            addMoneyButton.mouseEnabled = true;
             this.addChild(addMoneyButton);
 
             var cancelButton = new Button(198 + machineBg.x, 142 + machineBg.y, 15, 15, 'yellow');

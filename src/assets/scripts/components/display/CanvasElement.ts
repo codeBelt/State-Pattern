@@ -16,13 +16,13 @@ module namespace {
 
             // Add mouse event listeners to canvas element
             this.$canvas.addEventListener('mousedown', this.onPress, this);
-            this.$canvas.addEventListener('mousemove', this.onDrag, this);
+            this.$canvas.addEventListener('mousemove', this.onMove, this);
             this.$canvas.addEventListener('mouseup', this.onRelease, this);
             this.$canvas.addEventListener('mouseout', this.onCancel, this);
 
             // Add touch event listeners to this.$canvas element
             this.$canvas.addEventListener('touchstart', this.onPress, this);
-            this.$canvas.addEventListener('touchmove', this.onDrag, this);
+            this.$canvas.addEventListener('touchmove', this.onMove, this);
             this.$canvas.addEventListener('touchend', this.onRelease, this);
             this.$canvas.addEventListener('touchcancel', this.onCancel, this);
         }
@@ -97,9 +97,18 @@ module namespace {
             this.dispatchEvent(event);
         }
 
-        private onDrag(event:MouseEvent|JQueryEventObject):void {
+        private onMove(event:MouseEvent|JQueryEventObject):void {
             event.target = <any>this;
             event.currentTarget = <any>this;
+
+            var mousePos = this.getMousePos(event);
+            var displayObject:DisplayObject = this.getObjectUnderPoint(mousePos.x, mousePos.y);
+
+            if (displayObject !== null && displayObject.mouseEnabled === true) {
+                document.body.style.cursor = 'pointer';
+            } else {
+                document.body.style.cursor = 'default';
+            }
 
             this.dispatchEvent(event);
         }

@@ -17,6 +17,7 @@ module namespace {
         public alpha:number = 1;
         public visible:boolean = true;
         public isEnabled:boolean = false;
+        public mouseEnabled:boolean = false;
         public children:Array<DisplayObject> = [];
         public numChildren:number = 0;
         public name:string = null;
